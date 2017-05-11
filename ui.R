@@ -8,12 +8,12 @@
 library(shiny)
 
 navbarPage(
-  "Deep-Learning bluebox",
-  tabPanel("Darch",
+  "DARCH-greybox",
+  tabPanel("darch",
            sidebarLayout(
              sidebarPanel(
                fileInput("darchTrn", 
-                         "Choose training File", 
+                         "Upload training File", 
                          accept = c("text/csv", 
                                     "text/comma-separated-values,text/plain", 
                                     ".csv", 
@@ -26,21 +26,20 @@ navbarPage(
              uiOutput("darchPlotTmp"),
              verbatimTextOutput("darchResult")
              ))),
-  tabPanel("Deepnet",
+  tabPanel("darch+caret",
            sidebarLayout(
              sidebarPanel(
-               fileInput("deepnetTrn", 
-                         "Choose training File", 
+               fileInput("darchTrn2", 
+                         "Upload data :", 
                          accept = c("text/csv", 
                                     "text/comma-separated-values,text/plain", 
                                     ".csv", 
                                     ".libsvm", 
                                     ".arff")),
-               uiOutput("uploadTestingDN"),
                uiOutput("submitDNBtn")
              ),
              mainPanel(
-               uiOutput("deepnetPlotTmp"),
-               verbatimTextOutput("deepnetResult")
+               uiOutput("dcPlotTmp"),
+               verbatimTextOutput("dcResult")
              )))
 )
