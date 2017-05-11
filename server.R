@@ -3,7 +3,7 @@
 # Rosdyana Kusuma @ 2017
 #
 # http://rosdyanakusuma.com/
-#
+# https://github.com/rosdyana/Deep-Learning-bluebox
 
 library(shiny)
 library(darch)
@@ -24,7 +24,7 @@ shinyServer(function(input, output) {
     if(is.null(df))
       return(NULL)
     fileInput("darchTst", 
-              "Upload training File", 
+              "Upload Testing File", 
               accept = c("text/csv", 
                          "text/comma-separated-values,text/plain", 
                          ".csv", 
@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
     trainData = data.frame(read.csv(darchFileTrn(), sep = ",", header = T))
     tagList(
       selectInput("classX","Select Class :",choices = colnames(trainData) ),
-      textInput("numOfEpoch", "Number of Epoch :", value = 250),
+      textInput("numOfEpoch", "Number of Epoch :", value = 20),
       textInput("batchSize", "Number of Batch Size :", value = 5),
       textInput("rateWeights", "Rate of Weight :", value = .8),
       textInput("rateBiases", "Rate of Biases :", value = .8),
@@ -136,7 +136,7 @@ shinyServer(function(input, output) {
           ggsave(file,plot(modelDarch))
         }
       )
-      outputOptions(output, "download2", suspendWhenHidden=FALSE)
+      outputOptions(output, "download1", suspendWhenHidden=FALSE)
     }
   
   output$darchPlotTmp <- renderUI({
@@ -164,6 +164,7 @@ shinyServer(function(input, output) {
     datas = data.frame(read.csv(darchFileTrn2(), sep = ",", header = T))
     tagList(
       selectInput("class","Select Class :",choices = colnames(datas) ),
+      selectInput("method", "Caret method : " ,choices = c("center", "scale"), selected = "scale"),
       textInput("numOfEpoch2", "Number of Epoch :", value = 10),
       textInput("batchSize2", "Number of Batch Size :", value = 5),
       actionButton("SubmitDC","Submit"),
@@ -178,7 +179,7 @@ shinyServer(function(input, output) {
     numOfEpoch = as.numeric(input$numOfEpoch2)
     
     
-    pp <- preProcess(datas, method=c("scale"))
+    pp <- preProcess(datas, method=c(input$method))
     catsScaled <- predict(pp, newdata = datas)
     withProgress(message = 'Calculating . . .', value = 0, {
       n <- 1
