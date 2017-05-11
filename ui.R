@@ -3,7 +3,7 @@
 # Rosdyana Kusuma @ 2017
 #
 # http://rosdyanakusuma.com/
-#
+# https://github.com/rosdyana/Deep-Learning-bluebox
 
 library(shiny)
 
